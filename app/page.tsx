@@ -176,7 +176,7 @@ export default function ChatPage() {
     );
   } else {
     return (
-      <div className="h-screen bg-linear-to-br from-pink-100 via-blue-100 to-purple-100 flex flex-col relative overflow-hidden">
+      <div className="min-h-dvh bg-linear-to-br from-pink-100 via-blue-100 to-purple-100 flex flex-col relative overflow-hidden">
         <div className="absolute top-20 left-10 w-32 h-32 bg-pink-300/30 rounded-full blur-3xl"></div>
         <div className="absolute bottom-20 right-10 w-40 h-40 bg-blue-300/30 rounded-full blur-3xl"></div>
         <div className="absolute top-1/2 left-1/3 w-24 h-24 bg-purple-300/20 rounded-full blur-2xl"></div>
