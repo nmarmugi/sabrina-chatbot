@@ -32,6 +32,8 @@ export default function ChatPage() {
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const volumeRef = useRef<number>(0.3);
   const [isLoading, setIsLoading] = useState(true);
+  const [userMessageCount, setUserMessageCount] = useState(0);
+  const [showGiftBubble, setShowGiftBubble] = useState(false);
 
   useEffect(() => {
     scrollToBottom();
@@ -136,6 +138,9 @@ export default function ChatPage() {
     setInput('');
     setLoading(true);
 
+    const newCount = userMessageCount + 1;
+    setUserMessageCount(newCount);
+
     try {
       const response = await fetch('/api/chat', {
         method: 'POST',
@@ -149,15 +154,24 @@ export default function ChatPage() {
         throw new Error(data.error);
       }
 
-      const aiMessage: Message = {
+      let aiMessage: Message = {
         role: 'assistant',
         content: data.reply,
         soundtrack: data.soundtrack
       };
+
+      if (newCount === 3) {
+        aiMessage = {
+          role: 'assistant',
+          content: "Aspetta… *ferma tutto*. 🛑 Sei troppo carina, non posso non dirtelo: ho un inedito qui nel telefono — sì, proprio nel telefono! 📲 Lo stavo ascoltando stamattina e ho pensato: 'Questa persona *merita* di sentirlo prima di tutti'. Eccolo… ma prometti di non dirlo a nessuno? (A meno che non vogliano diventare fan speciali anche loro 😌💋)"
+        };
+        setShowGiftBubble(true);
+      }
+
       setMessages(prev => [...prev, aiMessage]);
 
-      if (data.soundtrack) {
-        playSoundtrack(data.soundtrack);
+      if (aiMessage.soundtrack) {
+        playSoundtrack(aiMessage.soundtrack);
       }
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Errore sconosciuto';
@@ -190,7 +204,28 @@ export default function ChatPage() {
                 className="w-16 h-16 rounded-full object-cover border-4 border-white shadow-lg"
               />
               <Sparkles className="w-5 h-5 text-yellow-300 absolute -top-1 -right-1 animate-pulse" />
+              {showGiftBubble && (
+                <div className="ml-2 animate-fadeIn absolute top-2 -right-38">
+                  <div className="relative inline-block">
+                    <div className="bg-white text-pink-600 px-3 py-1.5 rounded-lg shadow-md border border-pink-200 text-xs font-medium whitespace-nowrap">
+                      <div className="flex flex-col items-center">
+                        <span>🎁 Ecco il tuo regalo!</span>
+                        <a 
+                          onClick={() => setShowGiftBubble(false)}
+                          href="/more-than-a-thousand-colors.mp3" 
+                          download="SabrinaCarpenter_more-than-a-thousand-colors_FanExclusive.mp3"
+                          className="underline hover:text-pink-800 font-semibold mt-0.5"
+                        >
+                          Scarica qui!
+                        </a>
+                      </div>
+                    </div>
+                    <div className="absolute -left-1 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-white border-t border-l border-pink-200 rotate-45"></div>
+                  </div>
+                </div>
+              )}
             </div>
+
             <div className="flex-1">
               <h1 className="text-xl font-bold text-white flex items-center gap-2">
                 Chat with Sabrina
