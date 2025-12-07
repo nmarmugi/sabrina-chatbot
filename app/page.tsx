@@ -176,7 +176,7 @@ export default function ChatPage() {
     );
   } else {
     return (
-      <div className="min-h-dvh bg-linear-to-br from-pink-100 via-blue-100 to-purple-100 flex flex-col relative overflow-hidden">
+      <div className="h-dvh bg-linear-to-br from-pink-100 via-blue-100 to-purple-100 flex flex-col relative overflow-hidden">
         <div className="absolute top-20 left-10 w-32 h-32 bg-pink-300/30 rounded-full blur-3xl"></div>
         <div className="absolute bottom-20 right-10 w-40 h-40 bg-blue-300/30 rounded-full blur-3xl"></div>
         <div className="absolute top-1/2 left-1/3 w-24 h-24 bg-purple-300/20 rounded-full blur-2xl"></div>
@@ -192,7 +192,7 @@ export default function ChatPage() {
               <Sparkles className="w-5 h-5 text-yellow-300 absolute -top-1 -right-1 animate-pulse" />
             </div>
             <div className="flex-1">
-              <h1 className="text-2xl font-bold text-white flex items-center gap-2">
+              <h1 className="text-xl font-bold text-white flex items-center gap-2">
                 Chat with Sabrina
                 <span className="text-lg">💋</span>
               </h1>
@@ -229,15 +229,15 @@ export default function ChatPage() {
                 <Sparkles className="w-6 h-6 text-yellow-400 absolute top-0 right-0 animate-pulse" />
               </div>
               <h2 className="text-2xl font-bold bg-linear-to-r from-pink-500 via-blue-500 to-purple-500 bg-clip-text text-transparent mb-2">
-                Hey there! ✨
+                Oh boy! ✨
               </h2>
               <p className="text-gray-600 text-lg">Start a conversation with Sabrina!</p>
               <p className="text-gray-500 text-sm mt-2">
-                Ask about <span className="font-medium">Manchild</span>, <span className="font-medium">Tears</span>, or just say <em>“ciao”</em> ☕💖
+                Ask your favorite artist anything - songs, lyrics, stories, or just say <em>"hi"</em> ☕💖
               </p>
             </div>
           ) : (
-            <div className="space-y-4 pb-24">
+            <div className="space-y-4">
               {messages.map((msg, idx) => (
                 <div
                   key={idx}

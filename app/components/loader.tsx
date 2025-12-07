@@ -31,7 +31,7 @@ export default function Loader({setIsLoading}: ILoader) {
             setProgress(newProgress);
 
             const statusIndex = Math.min(
-                Math.floor((currentStep * 1000) / duration * statuses.length),
+                Math.floor((newProgress / 100) * statuses.length),
                 statuses.length - 1
             );
             setStatus(statuses[statusIndex]);
@@ -72,8 +72,8 @@ export default function Loader({setIsLoading}: ILoader) {
                     {status}
                 </h2>
 
-                <div className="w-full max-w-xs mt-6">
-                    <div className="w-full bg-white/50 rounded-full h-2.5 overflow-hidden">
+                <div className="w-full flex flex-col items-center max-w-xs mt-6">
+                    <div className="w-60 bg-white/50 rounded-full h-2.5 overflow-hidden">
                         <div
                             className="h-full bg-linear-to-r from-pink-500 to-purple-500 rounded-full transition-all duration-300 ease-out"
                             style={{ width: `${progress}%` }}
