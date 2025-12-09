@@ -205,7 +205,7 @@ export default function ChatPage() {
               />
               <Sparkles className="w-5 h-5 text-yellow-300 absolute -top-1 -right-1 animate-pulse" />
               {giftStep === 1 && (
-                <div className="ml-2 animate-fadeIn absolute top-2 -right-35">
+                <div className="ml-2 animate-fadeIn absolute top-2 -right-37">
                   <div className="relative inline-block">
                     <div className="bg-white text-pink-600 px-3 py-1.5 rounded-lg shadow-md border border-pink-200 text-xs font-medium whitespace-nowrap">
                       <div className="flex flex-col items-center">
