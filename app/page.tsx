@@ -210,14 +210,30 @@ export default function ChatPage() {
                     <div className="bg-white text-pink-600 px-3 py-1.5 rounded-lg shadow-md border border-pink-200 text-xs font-medium whitespace-nowrap">
                       <div className="flex flex-col items-center">
                         <span>🎁 Ecco il tuo regalo!</span>
-                        <a 
-                          onClick={() => setShowGiftBubble(false)}
-                          href="/more-than-a-thousand-colors.mp3" 
-                          download="SabrinaCarpenter_more-than-a-thousand-colors_FanExclusive.mp3"
-                          className="underline hover:text-pink-800 font-semibold mt-0.5"
+                        <button
+                          onClick={(e) => {
+                            e.preventDefault();
+    
+                            setShowGiftBubble(false);
+
+                            const downloadFile = (url: string, filename: string) => {
+                              const link = document.createElement('a');
+                              link.href = url;
+                              link.download = filename;
+                              link.style.display = 'none';
+                              document.body.appendChild(link);
+                              link.click();
+                              document.body.removeChild(link);
+                            };
+
+                            downloadFile('/sparks-at-night.mp3', 'Sabrina Carpenter - Sparks At Night.mp3');
+    
+                            downloadFile('/text.pdf', 'Sabrina Carpenter - Sparks At Night.pdf');
+                          }}
+                          className="underline hover:text-pink-800 font-semibold mt-0.5 bg-transparent border-0 text-pink-600 cursor-pointer"
                         >
                           Scarica qui!
-                        </a>
+                        </button>
                       </div>
                     </div>
                     <div className="absolute -left-1 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-white border-t border-l border-pink-200 rotate-45"></div>
