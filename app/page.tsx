@@ -33,7 +33,7 @@ export default function ChatPage() {
   const volumeRef = useRef<number>(0.3);
   const [isLoading, setIsLoading] = useState(true);
   const [userMessageCount, setUserMessageCount] = useState(0);
-  const [showGiftBubble, setShowGiftBubble] = useState(false);
+  const [giftStep, setGiftStep] = useState<0 | 1 | 2>(0);
 
   useEffect(() => {
     scrollToBottom();
@@ -165,7 +165,7 @@ export default function ChatPage() {
           role: 'assistant',
           content: "Aspetta… *ferma tutto*. 🛑 Sei troppo carina, non posso non dirtelo: ho un inedito qui nel telefono — sì, proprio nel telefono! 📲 Lo stavo ascoltando stamattina e ho pensato: 'Questa persona *merita* di sentirlo prima di tutti'. Eccolo… ma prometti di non dirlo a nessuno? (A meno che non vogliano diventare fan speciali anche loro 😌💋)"
         };
-        setShowGiftBubble(true);
+        setGiftStep(1);
       }
 
       setMessages(prev => [...prev, aiMessage]);
@@ -204,35 +204,60 @@ export default function ChatPage() {
                 className="w-16 h-16 rounded-full object-cover border-4 border-white shadow-lg"
               />
               <Sparkles className="w-5 h-5 text-yellow-300 absolute -top-1 -right-1 animate-pulse" />
-              {showGiftBubble && (
-                <div className="ml-2 animate-fadeIn absolute top-2 -right-38">
+              {giftStep === 1 && (
+                <div className="ml-2 animate-fadeIn absolute top-2 -right-35">
                   <div className="relative inline-block">
                     <div className="bg-white text-pink-600 px-3 py-1.5 rounded-lg shadow-md border border-pink-200 text-xs font-medium whitespace-nowrap">
                       <div className="flex flex-col items-center">
-                        <span>🎁 Ecco il tuo regalo!</span>
+                        <span>🎁 Regalo speciale!</span>
                         <button
-                          onClick={(e) => {
-                            e.preventDefault();
-    
-                            setShowGiftBubble(false);
+                          onClick={() => {
+                            const link = document.createElement('a');
+                            link.href = '/sparks-at-night.mp3';
+                            link.download = 'Sabrina Carpenter - Sparks At Night.mp3';
+                            link.style.display = 'none';
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
 
-                            const downloadFile = (url: string, filename: string) => {
-                              const link = document.createElement('a');
-                              link.href = url;
-                              link.download = filename;
-                              link.style.display = 'none';
-                              document.body.appendChild(link);
-                              link.click();
-                              document.body.removeChild(link);
-                            };
-
-                            downloadFile('/sparks-at-night.mp3', 'Sabrina Carpenter - Sparks At Night.mp3');
-    
-                            downloadFile('/text.pdf', 'Sabrina Carpenter - Sparks At Night.pdf');
+                            setGiftStep(2);
+                            setMessages(prev => [...prev, {
+                              role: 'assistant',
+                              content: "*Psst...*\nC’è anche il testo! 📝 Vuoi leggerlo mentre ascolti?"
+                            }]);
                           }}
                           className="underline hover:text-pink-800 font-semibold mt-0.5 bg-transparent border-0 text-pink-600 cursor-pointer"
                         >
-                          Scarica qui!
+                          🎧 Scarica l’audio
+                        </button>
+                      </div>
+                    </div>
+                    <div className="absolute -left-1 top-1/2 transform -translate-y-1/2 w-2 h-2 bg-white border-t border-l border-pink-200 rotate-45"></div>
+                  </div>
+                </div>
+              )}
+
+              {giftStep === 2 && (
+                <div className="ml-2 animate-fadeIn absolute top-2 -right-35">
+                  <div className="relative inline-block">
+                    <div className="bg-white text-pink-600 px-3 py-1.5 rounded-lg shadow-md border border-pink-200 text-xs font-medium whitespace-nowrap">
+                      <div className="flex flex-col items-center">
+                        <span>✍️ Ora il testo!</span>
+                        <button
+                          onClick={() => {
+                            const link = document.createElement('a');
+                            link.href = '/text.pdf';
+                            link.download = 'Sabrina Carpenter - Sparks At Night (Testo).pdf';
+                            link.style.display = 'none';
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+
+                            setGiftStep(0);
+                          }}
+                          className="underline hover:text-pink-800 font-semibold mt-0.5 bg-transparent border-0 text-pink-600 cursor-pointer"
+                        >
+                          📄 Scarica il testo
                         </button>
                       </div>
                     </div>
